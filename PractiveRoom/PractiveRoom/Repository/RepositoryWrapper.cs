@@ -10,6 +10,7 @@ namespace PractiveRoom.Repository
         private IUserRepository _user;
         private IRoomRepository _room;
         private ITeacherReposiroty _teacher;
+        private IScheduleRepository _schedule;
 
         ISubjectRepository _subject;
         
@@ -57,6 +58,15 @@ namespace PractiveRoom.Repository
                 if (_teacher != null)
                     return _teacher;
                 return new TeacherRepository(_context);
+            }
+        }
+        public IScheduleRepository Schedule
+        {
+            get
+            {
+                if (_schedule != null)
+                    return _schedule;
+                return new ScheduleRepository(_context);
             }
         }
     }

@@ -7,6 +7,7 @@ namespace PractiveRoom.Contracts
         IRoomRepository Room { get; }
         ISubjectRepository Subject { get; }
         ITeacherReposiroty Teacher { get; }
+        IScheduleRepository Schedule { get; }
         void save();
     }
 }

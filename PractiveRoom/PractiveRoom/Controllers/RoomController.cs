@@ -79,7 +79,7 @@ namespace PractiveRoom.Controllers
                 var roomEntity = _repository.Room.GetRoomById(id);
                 if (roomEntity == null)
                     return NotFound();
-                _repository.Room.Delete(roomEntity);
+                _repository.Room.DeleteRoom(roomEntity);
                 _repository.save();
                 return NoContent();
             } catch(Exception ex) { 
@@ -98,7 +98,7 @@ namespace PractiveRoom.Controllers
                 if (roomEntity == null)
                     return NotFound();
                 _mapper.Map(room, roomEntity);
-                _repository.Room.Update(roomEntity);
+                _repository.Room.UpdateRoom(roomEntity);
                 _repository.save();
                 return NoContent();
             }
