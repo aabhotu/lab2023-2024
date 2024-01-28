@@ -1,6 +1,6 @@
-﻿namespace RestApi.Entities.DTO
+﻿namespace PractiveRoom.Entities.DTO
 {
-    public class UserForUpdate
+    public class UserForChange
     {
         public string username { get; set; }
         public string password { get; set; }

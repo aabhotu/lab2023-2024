@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PractiveRoom.Contracts;
-using RestApi.Contracts;
-using RestApi.Entities;
-using RestApi.Repository;
+using PractiveRoom.Entities;
 
 namespace PractiveRoom.Repository
 {
@@ -10,6 +8,10 @@ namespace PractiveRoom.Repository
     {
         private RepositoryContext _context;
         private IUserRepository _user;
+        private IRoomRepository _room;
+        private ITeacherReposiroty _teacher;
+
+        ISubjectRepository _subject;
         
         public RepositoryWrapper(RepositoryContext context)
         {
@@ -28,6 +30,33 @@ namespace PractiveRoom.Repository
                     return _user;
                 }
                 return new UserRepository(_context);
+            }
+        }
+        public IRoomRepository Room
+        {
+            get
+            {
+                if(_room != null)
+                    return _room;
+                return new RoomRepository(_context);
+            }
+        }
+        public ISubjectRepository Subject
+        {
+            get
+            {
+                if (_subject != null)
+                    return _subject;
+                return new SubjectRepository(_context);
+            }
+        }
+        public ITeacherReposiroty Teacher
+        {
+            get
+            {
+                if (_teacher != null)
+                    return _teacher;
+                return new TeacherRepository(_context);
             }
         }
     }

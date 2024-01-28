@@ -1,12 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using PractiveRoom.Contracts;
+using PractiveRoom.Entities;
 using PractiveRoom.Repository;
-using RestApi.Contracts;
-using RestApi.Entities;
-using RestApi.Repository;
 
-namespace RestApi.Extensions
+namespace PractiveRoom.Extensions
 {
     public static class ServiceExtension
     {

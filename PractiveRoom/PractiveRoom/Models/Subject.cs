@@ -12,6 +12,6 @@ namespace PractiveRoom.Models
         [Required]
         [StringLength(60)]
         public string subjectName { get; set; }
-        public ICollection<Calender> calenders { get; set; }
+        public ICollection<Schedule> calenders { get; set; }
     }
 }

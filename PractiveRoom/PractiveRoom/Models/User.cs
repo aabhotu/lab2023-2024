@@ -3,9 +3,9 @@ using PractiveRoom.Models;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestApi.Models
+namespace PractiveRoom.Models
 {
-    [Table("userlist")]
+    [Table("student")]
     public class User
     {
         [Required]
@@ -22,6 +22,6 @@ namespace RestApi.Models
         public string fullname { get; set; }
         [Required]
         public bool isActive { get; set; }
-        public ICollection<StudentCalender> studentCalenders { get; set; }
+        public ICollection<StudentSchedule> studentCalenders { get; set; }
     }
 }

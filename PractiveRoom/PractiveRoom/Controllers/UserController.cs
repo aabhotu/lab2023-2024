@@ -1,16 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PractiveRoom.Contracts;
-using RestApi.Contracts;
-using RestApi.Data;
-using RestApi.Data.DTO;
-using RestApi.Entities;
-using RestApi.Entities.DTO;
-using RestApi.Models;
-using RestApi.Repository;
-using System.Collections;
+using PractiveRoom.Entities.DTO;
+using PractiveRoom.Models;
 
-namespace RestApi.Controllers
+namespace PractiveRoom.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -37,12 +31,8 @@ namespace RestApi.Controllers
         }
 
         [HttpGet("{id}", Name ="GetUser")]
-        public ActionResult GetUsers(int id)
+        public ActionResult GetUsers(Guid id)
         {
-            if (id == 0)
-            {
-                return BadRequest();
-            }
             //var user = UserDatas.UserList.FirstOrDefault(i => i.id == id);
             var user = _repository.User.GetUserById(id);
             if(user == null)
@@ -53,7 +43,7 @@ namespace RestApi.Controllers
             return Ok(userResult);
         }
         [HttpPost]
-        public ActionResult<User> AddUser([FromBody] User user)
+        public ActionResult<User> AddUser([FromBody] UserForChange user)
         {
             if (user == null)
             {
@@ -64,13 +54,13 @@ namespace RestApi.Controllers
                 return BadRequest("Invalid");
             }
             var userEntity = _mapper.Map<User>(user);
-            _repository.User.Create(userEntity);
+            _repository.User.CreateUser(userEntity);
             _repository.save();
             var userCreate = _mapper.Map<userDto>(userEntity);
             return CreatedAtRoute("GetUser", new {id = userCreate.id }, userCreate);
         }
         [HttpDelete("{id}")]
-        public ActionResult<User> DeleteUser(int id)
+        public ActionResult<User> DeleteUser(Guid id)
         {
             if (id == null)
             {
@@ -83,7 +73,7 @@ namespace RestApi.Controllers
             return NoContent();
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(int id, [FromBody] UserForUpdate user)
+        public IActionResult UpdateUser(Guid id, [FromBody] UserForChange user)
         {
             if (user == null)
             {

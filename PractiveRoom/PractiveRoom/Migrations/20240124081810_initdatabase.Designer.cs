@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using RestApi.Entities;
+using PractiveRoom.Entities;
 
 #nullable disable
 
 namespace PractiveRoom.Migrations
 {
     [DbContext(typeof(RepositoryContext))]
-    [Migration("20240119030744_updateTable")]
-    partial class updateTable
+    [Migration("20240124081810_initdatabase")]
+    partial class initdatabase
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,7 +22,23 @@ namespace PractiveRoom.Migrations
                 .HasAnnotation("ProductVersion", "7.0.15")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("PractiveRoom.Models.Calender", b =>
+            modelBuilder.Entity("PractiveRoom.Models.Room", b =>
+                {
+                    b.Property<int>("roomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("roomName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("roomId");
+
+                    b.ToTable("room");
+                });
+
+            modelBuilder.Entity("PractiveRoom.Models.Schedule", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
@@ -60,29 +76,16 @@ namespace PractiveRoom.Migrations
 
                     b.HasIndex("teacherId");
 
-                    b.ToTable("calender");
+                    b.ToTable("schedule");
                 });
 
-            modelBuilder.Entity("PractiveRoom.Models.Room", b =>
-                {
-                    b.Property<int>("roomId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("roomName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.HasKey("roomId");
-
-                    b.ToTable("room");
-                });
-
-            modelBuilder.Entity("PractiveRoom.Models.StudentCalender", b =>
+            modelBuilder.Entity("PractiveRoom.Models.StudentSchedule", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Scheduleid")
                         .HasColumnType("int");
 
                     b.Property<int>("calenderId")
@@ -93,11 +96,11 @@ namespace PractiveRoom.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("calenderId");
+                    b.HasIndex("Scheduleid");
 
                     b.HasIndex("userId");
 
-                    b.ToTable("studentCalender");
+                    b.ToTable("StudentSchedule");
                 });
 
             modelBuilder.Entity("PractiveRoom.Models.Subject", b =>
@@ -132,7 +135,7 @@ namespace PractiveRoom.Migrations
                     b.ToTable("teacher");
                 });
 
-            modelBuilder.Entity("RestApi.Models.User", b =>
+            modelBuilder.Entity("PractiveRoom.Models.User", b =>
                 {
                     b.Property<Guid>("id")
                         .ValueGeneratedOnAdd()
@@ -158,10 +161,10 @@ namespace PractiveRoom.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("userlist");
+                    b.ToTable("student");
                 });
 
-            modelBuilder.Entity("PractiveRoom.Models.Calender", b =>
+            modelBuilder.Entity("PractiveRoom.Models.Schedule", b =>
                 {
                     b.HasOne("PractiveRoom.Models.Room", "room")
                         .WithMany("calenders")
@@ -188,29 +191,27 @@ namespace PractiveRoom.Migrations
                     b.Navigation("teacher");
                 });
 
-            modelBuilder.Entity("PractiveRoom.Models.StudentCalender", b =>
+            modelBuilder.Entity("PractiveRoom.Models.StudentSchedule", b =>
                 {
-                    b.HasOne("PractiveRoom.Models.Calender", null)
+                    b.HasOne("PractiveRoom.Models.Schedule", null)
                         .WithMany("studentCalenders")
-                        .HasForeignKey("calenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("Scheduleid");
 
-                    b.HasOne("RestApi.Models.User", null)
+                    b.HasOne("PractiveRoom.Models.User", null)
                         .WithMany("studentCalenders")
                         .HasForeignKey("userId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PractiveRoom.Models.Calender", b =>
-                {
-                    b.Navigation("studentCalenders");
-                });
-
             modelBuilder.Entity("PractiveRoom.Models.Room", b =>
                 {
                     b.Navigation("calenders");
+                });
+
+            modelBuilder.Entity("PractiveRoom.Models.Schedule", b =>
+                {
+                    b.Navigation("studentCalenders");
                 });
 
             modelBuilder.Entity("PractiveRoom.Models.Subject", b =>
@@ -223,7 +224,7 @@ namespace PractiveRoom.Migrations
                     b.Navigation("calenders");
                 });
 
-            modelBuilder.Entity("RestApi.Models.User", b =>
+            modelBuilder.Entity("PractiveRoom.Models.User", b =>
                 {
                     b.Navigation("studentCalenders");
                 });

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RestApi.Contracts;
-using RestApi.Entities;
+using PractiveRoom.Contracts;
+using PractiveRoom.Entities;
 using System.Linq.Expressions;
 
-namespace RestApi.Repository
+namespace PractiveRoom.Repository
 {
     public abstract class RepositoryBase<T> : IRepositoryBase<T> where T : class
     {

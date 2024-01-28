@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq.Expressions;
 
-namespace RestApi.Contracts
+namespace PractiveRoom.Contracts
 {
     public interface IRepositoryBase<T>
     {

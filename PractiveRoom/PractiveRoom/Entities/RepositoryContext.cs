@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PractiveRoom.Models;
-using RestApi.Models;
 
-namespace RestApi.Entities
+namespace PractiveRoom.Entities
 {
     public class RepositoryContext: DbContext
     {

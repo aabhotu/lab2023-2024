@@ -1,15 +1,23 @@
 ﻿using AutoMapper;
-using RestApi.Data.DTO;
-using RestApi.Entities.DTO;
-using RestApi.Models;
+using PractiveRoom.Entities.DTO;
+using PractiveRoom.Models;
 
-namespace RestApi
+namespace PractiveRoom
 {
     public class MappingProfile : Profile
     {
         public MappingProfile() {
             CreateMap<User, userDto > ();
-            CreateMap<UserForUpdate, User>();
+            CreateMap<UserForChange, User>();
+
+            CreateMap<Room, roomDto > ();
+            CreateMap<RoomForChange, Room>();
+
+            CreateMap<Subject, subjectDto > ();
+            CreateMap<SubjectForChange, Subject>();
+
+            CreateMap<Teacher,teacherDto> ();
+            CreateMap<teacherForChange, Teacher>();
         }
     }
 }

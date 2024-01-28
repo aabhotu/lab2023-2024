@@ -7,11 +7,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PractiveRoom.Migrations
 {
     /// <inheritdoc />
-    public partial class createTable : Migration
+    public partial class initdatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterDatabase()
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateTable(
                 name: "room",
                 columns: table => new
@@ -24,6 +27,25 @@ namespace PractiveRoom.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_room", x => x.roomId);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "student",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    username = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    password = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    fullname = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    isActive = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_student", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -57,7 +79,7 @@ namespace PractiveRoom.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "calender",
+                name: "schedule",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
@@ -73,21 +95,21 @@ namespace PractiveRoom.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_calender", x => x.id);
+                    table.PrimaryKey("PK_schedule", x => x.id);
                     table.ForeignKey(
-                        name: "FK_calender_room_roomId",
+                        name: "FK_schedule_room_roomId",
                         column: x => x.roomId,
                         principalTable: "room",
                         principalColumn: "roomId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_calender_subject_subjectId",
+                        name: "FK_schedule_subject_subjectId",
                         column: x => x.subjectId,
                         principalTable: "subject",
                         principalColumn: "subjectId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_calender_teacher_teacherId",
+                        name: "FK_schedule_teacher_teacherId",
                         column: x => x.teacherId,
                         principalTable: "teacher",
                         principalColumn: "teacherId",
@@ -95,27 +117,70 @@ namespace PractiveRoom.Migrations
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
+            migrationBuilder.CreateTable(
+                name: "StudentSchedule",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    userId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    calenderId = table.Column<int>(type: "int", nullable: false),
+                    Scheduleid = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentSchedule", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_StudentSchedule_schedule_Scheduleid",
+                        column: x => x.Scheduleid,
+                        principalTable: "schedule",
+                        principalColumn: "id");
+                    table.ForeignKey(
+                        name: "FK_StudentSchedule_student_userId",
+                        column: x => x.userId,
+                        principalTable: "student",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
             migrationBuilder.CreateIndex(
-                name: "IX_calender_roomId",
-                table: "calender",
+                name: "IX_schedule_roomId",
+                table: "schedule",
                 column: "roomId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_calender_subjectId",
-                table: "calender",
+                name: "IX_schedule_subjectId",
+                table: "schedule",
                 column: "subjectId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_calender_teacherId",
-                table: "calender",
+                name: "IX_schedule_teacherId",
+                table: "schedule",
                 column: "teacherId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSchedule_Scheduleid",
+                table: "StudentSchedule",
+                column: "Scheduleid");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentSchedule_userId",
+                table: "StudentSchedule",
+                column: "userId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "calender");
+                name: "StudentSchedule");
+
+            migrationBuilder.DropTable(
+                name: "schedule");
+
+            migrationBuilder.DropTable(
+                name: "student");
 
             migrationBuilder.DropTable(
                 name: "room");

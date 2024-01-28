@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.HttpOverrides;
-using RestApi.Contracts;
-using RestApi.Extensions;
-using RestApi.Repository;
+using PractiveRoom.Contracts;
+using PractiveRoom.Extensions;
+using PractiveRoom.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 

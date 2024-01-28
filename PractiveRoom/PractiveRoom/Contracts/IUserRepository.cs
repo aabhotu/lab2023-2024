@@ -1,12 +1,12 @@
-﻿using RestApi.Models;
+﻿using PractiveRoom.Models;
 using System.Collections;
 
-namespace RestApi.Contracts
+namespace PractiveRoom.Contracts
 {
     public interface IUserRepository :IRepositoryBase<User>
     {
         IEnumerable<User> GetAllUser();
-        User GetUserById(int Id);
+        User GetUserById(Guid Id);
         void CreateUser(User user);
         void UpdateUser(User user);
         void DeleteUser(User user);

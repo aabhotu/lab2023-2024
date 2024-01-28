@@ -3,8 +3,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PractiveRoom.Models
 {
-    [Table("calender")]
-    public class Calender
+    [Table("schedule")]
+    public class Schedule
     {
         [Required]
         [Key]
@@ -26,6 +26,6 @@ namespace PractiveRoom.Models
         [ForeignKey(nameof(Subject))]
         public int subjectId { get; set; }
         public Subject subject { get; set; }
-        public ICollection<StudentCalender> studentCalenders { get; set; }
+        public ICollection<StudentSchedule> studentCalenders { get; set; }
     }
 }

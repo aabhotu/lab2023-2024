@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace RestApi.Data.DTO
+namespace PractiveRoom.Entities.DTO
 {
     public class userDto
     {
