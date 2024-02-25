@@ -17,15 +17,15 @@ namespace PractiveRoom.Models
 
         [ForeignKey(nameof(Room))]
         public int roomId { get; set; }
-        public Room room { get; set; }
+        public Room? room { get; set; }
 
         [ForeignKey(nameof(Teacher))]
         public Guid teacherId { get; set; }
-        public Teacher teacher { get; set; }
+        public Teacher? teacher { get; set; }
 
         [ForeignKey(nameof(Subject))]
         public int subjectId { get; set; }
-        public Subject subject { get; set; }
+        public Subject? subject { get; set; }
         public ICollection<StudentSchedule> studentCalenders { get; set; }
     }
 }

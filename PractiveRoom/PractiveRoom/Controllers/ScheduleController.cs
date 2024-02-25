@@ -57,10 +57,13 @@ namespace PractiveRoom.Controllers
                 if (!ModelState.IsValid)
                     return BadRequest("Valid");
                 var scheduleEntity = _mapper.Map<Schedule>(schedule);
-                scheduleEntity.scheduleId = _repository.Schedule.GetAllSchedule().OrderByDescending(i => i.scheduleId).FirstOrDefault().roomId + 1;
+                scheduleEntity.scheduleId = _repository.Schedule
+                                                .GetAllSchedule()
+                                                .OrderByDescending(i => i.scheduleId)
+                                                .FirstOrDefault().scheduleId + 1;
                 _repository.Schedule.CreateSchedule(scheduleEntity);
                 _repository.save();
-                var scheduleCreate = _mapper.Map<Schedule>(scheduleEntity);
+                var scheduleCreate = _mapper.Map<scheduleDto>(scheduleEntity);
                 return CreatedAtRoute("GetSchedule", new { id = scheduleCreate }, scheduleCreate);
             }
             catch (Exception ex)
