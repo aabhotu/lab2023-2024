@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PractiveRoom.Contracts;
+using PractiveRoom.Entities;
 using PractiveRoom.Entities.DTO;
 using PractiveRoom.Models;
 
@@ -12,25 +13,49 @@ namespace PractiveRoom.Controllers
     {
         private IMapper _mapper;
         private IRepositoryWrapper _repository;
-        public ScheduleController(IMapper mapper, IRepositoryWrapper repository)
+        private RepositoryContext _context;
+        public ScheduleController(IMapper mapper, IRepositoryWrapper repository, RepositoryContext context)
         {
             _mapper = mapper;
             _repository = repository;
+            _context = context;
         }
         [HttpGet]
         public IActionResult GetAllSchedule()
         {
             try
             {
-                var schedule = _repository.Schedule.GetAllSchedule();
-                var scheduleResult = _mapper.Map<IEnumerable<scheduleDto>>(schedule);
-                return Ok(scheduleResult);
+                var result = from schedule in _context.schedules
+                             join room in _context.rooms on schedule.roomId equals room.roomId
+                             join teacher in _context.teachers on schedule.teacherId equals teacher.teacherId
+                             join subject in _context.subjects on schedule.subjectId equals subject.subjectId
+                             select new
+                             {
+                                 scheduleId = schedule.scheduleId,
+                                 day = schedule.day,
+                                 month = schedule.month,
+                                 year = schedule.year,
+                                 startTime = schedule.startTime,
+                                 endTime = schedule.endTime,
+                                 roomId = room.roomId,
+                                 roomName = room.roomName,
+                                 teacherId = teacher.teacherId,
+                                 teacherName = teacher.name,
+                                 subjectId = subject.subjectId,
+                                 subjectName = subject.subjectName,
+                             };
+                //var schedule = _repository.Schedule.GetAllSchedule();
+                //var scheduleResult = _mapper.Map<IEnumerable<scheduleDto>>(schedule);
+                return Ok(result);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
+
         [HttpGet("{id}", Name = "Getschedule")]
         public IActionResult Getschedule(int id)
         {

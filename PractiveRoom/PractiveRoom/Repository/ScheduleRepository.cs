@@ -15,13 +15,17 @@ namespace PractiveRoom.Repository
 
         public IEnumerable<Schedule> GetAllSchedule()
         {
-            return All().OrderBy(i=> i.startTime).ToList();
+            return All().ToList();
         }
 
         public Schedule GetScheduleById(int id)
         {
             return Find(i => i.scheduleId == id).FirstOrDefault();
         }
+        //public Schedule GetScheduleDetals(Schedule schedule)
+        //{
+        //    return Find(room=>room.roomId.Equals(schedule.roomId)).FirstOrDefault();
+        //}
 
     }
 }

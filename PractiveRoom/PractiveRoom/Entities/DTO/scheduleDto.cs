@@ -15,12 +15,12 @@ namespace PractiveRoom.Entities.DTO
 
         [Required]
         public int roomId { get; set; }
-        public roomDto room { get; set; }
+        //public roomDto room { get; set; }
 
         public Guid teacherId { get; set; }
-        public teacherDto teacher { get; set; }
+        //public teacherDto teacher { get; set; }
 
         public int subjectId { get; set; }
-        public subjectDto subject { get; set; }
+        //public subjectDto subject { get; set; }
     }
 }
