@@ -21,6 +21,8 @@ namespace PractiveRoom
 
             CreateMap<Schedule, scheduleDto > ();
             CreateMap <ScheduleForChange, Schedule > ();
+
+            CreateMap<StudentSchedule, StudentScheduleDto>();
         }
     }
 }

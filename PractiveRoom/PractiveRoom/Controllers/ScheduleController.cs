@@ -4,6 +4,7 @@ using PractiveRoom.Contracts;
 using PractiveRoom.Entities;
 using PractiveRoom.Entities.DTO;
 using PractiveRoom.Models;
+using System.Linq;
 
 namespace PractiveRoom.Controllers
 {
@@ -54,7 +55,21 @@ namespace PractiveRoom.Controllers
             }
         }
 
-
+        [HttpGet("{id}/student")]
+        public IActionResult GetStudentInSchedule(int id)
+        {
+            var students = from schedule in _context.schedules
+                           join temp in _context.studentSchedules on schedule.scheduleId equals temp.scheduleId
+                           join student in _context.users on temp.userId equals student.id
+                           where schedule.scheduleId == id
+                           select new
+                           {
+                               scheduleId = schedule.scheduleId,
+                               studentName = student.username,
+                               
+                           };
+            return Ok(students);
+        }
 
         [HttpGet("{id}", Name = "Getschedule")]
         public IActionResult Getschedule(int id)

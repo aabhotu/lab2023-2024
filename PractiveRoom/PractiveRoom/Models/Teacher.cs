@@ -12,6 +12,9 @@ namespace PractiveRoom.Models
         [Required]
         [StringLength(100)]
         public string name { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string password { get; set; }
         public ICollection<Schedule> calenders { get; set; }
     }
 }

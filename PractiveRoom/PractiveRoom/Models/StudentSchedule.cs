@@ -12,6 +12,6 @@ namespace PractiveRoom.Models
         [ForeignKey(nameof(User))]
         public Guid userId { get; set; }
         [ForeignKey(nameof(Schedule))]
-        public int calenderId { get; set;}
+        public int scheduleId { get; set;}
     }
 }
